@@ -1,0 +1,113 @@
+# Books API - HTTP Requests
+#
+# This file contains HTTP requests for testing the Books API endpoints.
+# Use with REST Client extension in VS Code or similar HTTP client tools.
+#
+# Base URL: http://localhost:3001
+#
+# Prerequisites:
+# - Start JSON Server: npm run server
+# - Ensure db.json exists in the project root
+
+###############################################################################
+# GET ALL BOOKS
+###############################################################################
+# Retrieves all books from the database
+# Returns: Array of book objects
+
+GET http://localhost:3001/books
+
+###
+
+###############################################################################
+# CREATE A NEW BOOK
+###############################################################################
+# Creates a new book entry
+# Request Body: { "title": "Book Title" }
+# Returns: The created book object with auto-generated id
+
+POST http://localhost:3001/books
+Content-Type: application/json
+
+{
+  "title": "The Great Gatsby"
+}
+
+###
+
+###############################################################################
+# GET SINGLE BOOK BY ID
+###############################################################################
+# Retrieves a specific book by its ID
+# Replace '1' with the actual book ID
+# Returns: Single book object
+
+GET http://localhost:3001/books/1
+
+###
+
+###############################################################################
+# DELETE A BOOK
+###############################################################################
+# Deletes a book by its ID
+# Replace '1' with the actual book ID
+# Returns: Empty object {} on success
+
+DELETE http://localhost:3001/books/1
+
+###
+
+###############################################################################
+# UPDATE A BOOK
+###############################################################################
+# Updates an existing book's information
+# Replace '1' with the actual book ID
+# Request Body: { "title": "Updated Title" }
+# Returns: The updated book object
+
+PUT http://localhost:3001/books/1
+Content-Type: application/json
+
+{
+  "title": "The Great Gatsby 2"
+}
+
+###
+
+###############################################################################
+# EXAMPLE: Multiple Books Creation
+###############################################################################
+# Example of creating multiple books (run separately)
+
+# POST http://localhost:3001/books
+# Content-Type: application/json
+#
+# {
+#   "title": "To Kill a Mockingbird"
+# }
+
+###
+
+# POST http://localhost:3001/books
+# Content-Type: application/json
+#
+# {
+#   "title": "1984"
+# }
+
+###
+
+###############################################################################
+# NOTES
+###############################################################################
+#
+# - JSON Server automatically generates unique IDs for new books
+# - All endpoints support CORS for local development
+# - JSON Server provides filtering, pagination, and sorting:
+#   - Filter: GET /books?title=Gatsby
+#   - Paginate: GET /books?_page=1&_limit=10
+#   - Sort: GET /books?_sort=title&_order=asc
+#
+# - For more JSON Server features, visit:
+#   https://github.com/typicode/json-server
+###############################################################################
