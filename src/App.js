@@ -1,33 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BookCreate from './components/BookCreate';
 import BookList from './components/BookList';
+
+import { createBook, deleteBook, getBooks, updateBook } from './api';
 
 function App() {
   const [books, setBooks] = useState([]);
 
-  const createBook = ({ title }) => {
-    const updatedBooks = [
-      ...books,
-      { id: Math.round(Math.random() * 999999), title },
-    ];
-    setBooks(updatedBooks);
+  useEffect(() => {
+    const fetchBooks = async () => {
+      const response = await getBooks();
+      setBooks(response);
+    };
+    fetchBooks();
+  }, []);
+
+  const handleCreateBook = async ({ title }) => {
+    const response = await createBook({ title });
+    setBooks([...books, response]);
   };
 
-  const deleteBookById = (id) => {
-    const updatedBooks = books.filter((book) => {
-      return book.id !== id;
-    });
-    setBooks(updatedBooks);
+  const handleDeleteBookById = async (id) => {
+    await deleteBook(id);
+    setBooks(books.filter((book) => book.id !== id));
   };
 
-  const editBookById = (id, title) => {
-    const updatedBooks = books.map((book) => {
-      if (book.id === id) {
-        return { ...book, title };
-      }
-      return book;
-    });
-    setBooks(updatedBooks);
+  const handleEditBookById = async (id, title) => {
+    const response = await updateBook(id, { title });
+    setBooks(
+      books.map((book) => {
+        if (book.id === id) {
+          return response;
+        }
+        return book;
+      })
+    );
   };
 
   return (
@@ -59,11 +66,11 @@ function App() {
 
       {/* Main Content */}
       <main className='container mx-auto px-4 py-8 grow'>
-        <BookCreate onCreate={createBook} />
+        <BookCreate onCreate={handleCreateBook} />
         <BookList
           books={books}
-          onDelete={deleteBookById}
-          onEdit={editBookById}
+          onDelete={handleDeleteBookById}
+          onEdit={handleEditBookById}
         />
       </main>
 

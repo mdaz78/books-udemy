@@ -54,6 +54,7 @@ export const BookShow = ({ book, onDelete, onEdit }) => {
         <div className='flex gap-2 shrink-0'>
           {/* Edit Button */}
           <button
+            type='button'
             onClick={handleEdit}
             className='p-2 hover:bg-amber-100 rounded transition-colors cursor-pointer'
           >
@@ -74,6 +75,7 @@ export const BookShow = ({ book, onDelete, onEdit }) => {
 
           {/* Delete Button */}
           <button
+            type='button'
             onClick={handleDelete}
             className='p-2 hover:bg-red-100 rounded transition-colors cursor-pointer'
           >
