@@ -13,7 +13,12 @@ function App() {
     setBooks(updatedBooks);
   };
 
-  console.log({ books });
+  const deleteBookById = (id) => {
+    const updatedBooks = books.filter((book) => {
+      return book.id !== id;
+    });
+    setBooks(updatedBooks);
+  };
 
   return (
     <div className='min-h-screen bg-background flex flex-col'>
@@ -45,7 +50,7 @@ function App() {
       {/* Main Content */}
       <main className='container mx-auto px-4 py-8 grow'>
         <BookCreate onCreate={createBook} />
-        <BookList books={books} />
+        <BookList books={books} onDelete={deleteBookById} />
       </main>
 
       {/* Footer */}

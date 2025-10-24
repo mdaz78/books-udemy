@@ -1,5 +1,9 @@
-const BookList = ({ books }) => {
+const BookList = ({ books, onDelete }) => {
   const renderedBooks = books.map((book) => {
+    const handleDelete = () => {
+      onDelete(book.id);
+    };
+
     return (
       <div
         key={book.id}
@@ -23,6 +27,7 @@ const BookList = ({ books }) => {
             {book.title}
           </h4>
           <div className='flex gap-2'>
+            {/* Edit Button */}
             <button className='p-2 hover:bg-amber-100 rounded transition-colors cursor-pointer'>
               <svg
                 className='w-5 h-5 text-library-primary'
@@ -38,7 +43,12 @@ const BookList = ({ books }) => {
                 />
               </svg>
             </button>
-            <button className='p-2 hover:bg-red-100 rounded transition-colors cursor-pointer'>
+
+            {/* Delete Button */}
+            <button
+              onClick={handleDelete}
+              className='p-2 hover:bg-red-100 rounded transition-colors cursor-pointer'
+            >
               <svg
                 className='w-5 h-5 text-red-600'
                 fill='none'
