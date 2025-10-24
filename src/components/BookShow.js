@@ -12,6 +12,10 @@ export const BookShow = ({ book, onDelete }) => {
     setShowEdit(!showEdit);
   };
 
+  const handleCancel = () => {
+    setShowEdit(false);
+  };
+
   return (
     <div
       key={book.id}
@@ -33,11 +37,9 @@ export const BookShow = ({ book, onDelete }) => {
         </svg>
         <div className='flex-1'>
           {showEdit ? (
-            <BookEdit book={book} />
+            <BookEdit book={book} onCancel={handleCancel} />
           ) : (
-            <h4 className='text-library-dark font-semibold'>
-              {book.title}
-            </h4>
+            <h4 className='text-library-dark font-semibold'>{book.title}</h4>
           )}
         </div>
         <div className='flex gap-2 shrink-0'>
