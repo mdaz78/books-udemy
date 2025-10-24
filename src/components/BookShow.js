@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import BookEdit from './BookEdit';
 
-export const BookShow = ({ book, onDelete }) => {
+export const BookShow = ({ book, onDelete, onEdit }) => {
   const [showEdit, setShowEdit] = useState(false);
 
   const handleDelete = () => {
@@ -14,6 +14,11 @@ export const BookShow = ({ book, onDelete }) => {
 
   const handleCancel = () => {
     setShowEdit(false);
+  };
+
+  const handleSubmit = (id, title) => {
+    setShowEdit(false);
+    onEdit(id, title);
   };
 
   return (
@@ -37,7 +42,11 @@ export const BookShow = ({ book, onDelete }) => {
         </svg>
         <div className='flex-1'>
           {showEdit ? (
-            <BookEdit book={book} onCancel={handleCancel} />
+            <BookEdit
+              book={book}
+              onCancel={handleCancel}
+              onSubmit={handleSubmit}
+            />
           ) : (
             <h4 className='text-library-dark font-semibold'>{book.title}</h4>
           )}

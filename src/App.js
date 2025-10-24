@@ -20,6 +20,16 @@ function App() {
     setBooks(updatedBooks);
   };
 
+  const editBookById = (id, title) => {
+    const updatedBooks = books.map((book) => {
+      if (book.id === id) {
+        return { ...book, title };
+      }
+      return book;
+    });
+    setBooks(updatedBooks);
+  };
+
   return (
     <div className='min-h-screen bg-background flex flex-col'>
       {/* Header */}
@@ -50,7 +60,11 @@ function App() {
       {/* Main Content */}
       <main className='container mx-auto px-4 py-8 grow'>
         <BookCreate onCreate={createBook} />
-        <BookList books={books} onDelete={deleteBookById} />
+        <BookList
+          books={books}
+          onDelete={deleteBookById}
+          onEdit={editBookById}
+        />
       </main>
 
       {/* Footer */}
