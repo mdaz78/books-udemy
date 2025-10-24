@@ -4,11 +4,16 @@ const BookCreate = ({ onCreate }) => {
   const [title, setTitle] = useState('');
 
   const handleTitleChange = (event) => {
-    setTitle(event.target.value);
+    setTitle(event.target.value.trim());
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (title.length === 0) {
+      return;
+    }
+
     onCreate({ title });
     setTitle('');
   };
