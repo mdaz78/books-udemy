@@ -43,7 +43,7 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className='container mx-auto px-4 py-8 grow'>
+      <main className='container mx-auto px-4 py-8 grow max-w-4xl'>
         <BookCreate onCreate={createBook} />
         <BookList books={books} />
       </main>
