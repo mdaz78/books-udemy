@@ -1,41 +1,11 @@
-import { useEffect, useState } from 'react';
 import BookCreate from './components/BookCreate';
 import BookList from './components/BookList';
 
-import { createBook, deleteBook, getBooks, updateBook } from './api';
+import useBooksContext from './hooks/useBooksContext';
 
 function App() {
-  const [books, setBooks] = useState([]);
-
-  useEffect(() => {
-    const fetchBooks = async () => {
-      const response = await getBooks();
-      setBooks(response);
-    };
-    fetchBooks();
-  }, []);
-
-  const handleCreateBook = async ({ title }) => {
-    const response = await createBook({ title });
-    setBooks([...books, response]);
-  };
-
-  const handleDeleteBookById = async (id) => {
-    await deleteBook(id);
-    setBooks(books.filter((book) => book.id !== id));
-  };
-
-  const handleEditBookById = async (id, title) => {
-    const response = await updateBook(id, { title });
-    setBooks(
-      books.map((book) => {
-        if (book.id === id) {
-          return response;
-        }
-        return book;
-      })
-    );
-  };
+  const { books, handleCreateBook, handleDeleteBookById, handleEditBookById } =
+    useBooksContext();
 
   return (
     <div className='min-h-screen bg-background flex flex-col'>
