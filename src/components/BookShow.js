@@ -16,11 +16,6 @@ export const BookShow = ({ book, onDelete, onEdit }) => {
     setShowEdit(false);
   };
 
-  const handleSubmit = (id, title) => {
-    setShowEdit(false);
-    onEdit(id, title);
-  };
-
   return (
     <div
       key={book.id}
@@ -42,11 +37,7 @@ export const BookShow = ({ book, onDelete, onEdit }) => {
         </svg>
         <div className='flex-1'>
           {showEdit ? (
-            <BookEdit
-              book={book}
-              onCancel={handleCancel}
-              onSubmit={handleSubmit}
-            />
+            <BookEdit book={book} onCancel={handleCancel} />
           ) : (
             <h4 className='text-library-dark font-semibold'>{book.title}</h4>
           )}
