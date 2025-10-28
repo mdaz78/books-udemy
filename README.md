@@ -21,11 +21,12 @@ _Seamless inline editing with save/cancel actions_
 ### Core Functionality
 
 - **Add Books** - Quick book entry with a streamlined form and API persistence
-- **Edit Books** - Inline editing with intuitive save/cancel controls (ready for API integration)
-- **Delete Books** - One-click book removal with icon buttons (ready for API integration)
+- **Edit Books** - Inline editing with intuitive save/cancel controls and full API integration
+- **Delete Books** - One-click book removal with icon buttons and API persistence
 - **Persistent Storage** - Books saved to JSON database and survive page refreshes
-- **Real-time Updates** - Instant UI updates using React state management
+- **Real-time Updates** - Instant UI updates using Context API and React state management
 - **Book Count Display** - Live count of books in your collection
+- **Auto-load on Startup** - Books automatically fetched from API when app loads
 
 ### UI/UX Highlights
 
@@ -63,18 +64,21 @@ _Seamless inline editing with save/cancel actions_
 
 ```
 App (Root)
-├── BookCreate - Form component for adding new books
-└── BookList - Container for book collection
-    └── BookShow - Individual book card
-        └── BookEdit - Inline edit form with save/cancel
+├── BooksProvider (Context) - Global state management
+│   ├── BookCreate - Form component for adding new books
+│   └── BookList - Container for book collection
+│       └── BookShow - Individual book card
+│           └── BookEdit - Inline edit form with save/cancel
 ```
 
 ### State Management
 
-- **Local State** - Uses React `useState` for simple, predictable state management
+- **Context API** - Uses React Context API for global state management
+- **Custom Hook** - `useBooksContext` hook provides clean access to book data and operations
+- **Centralized State** - All book state managed in `BooksProvider` component
 - **Async Operations** - Handles asynchronous API calls with async/await
-- **Props Drilling** - Clear parent-to-child data flow
-- **Event Handlers** - Callback props for child-to-parent communication
+- **No Props Drilling** - Components access shared state directly through context
+- **Separation of Concerns** - Business logic separated from UI components
 
 ### API Integration
 
@@ -145,6 +149,50 @@ Custom Tailwind theme with library-inspired colors:
 
 ## 💡 Key Implementation Details
 
+### Context API Implementation
+
+The application uses React Context API for efficient state management:
+
+```javascript
+// BooksContext provides global state
+const BooksContext = createContext();
+
+// BooksProvider wraps the app and manages state
+function BooksProvider({ children }) {
+  const [books, setBooks] = useState([]);
+
+  // All CRUD operations centralized here
+  const handleCreateBook = async ({ title }) => {
+    const response = await createBook({ title });
+    setBooks([...books, response]);
+  };
+
+  return (
+    <BooksContext.Provider value={{ books, handleCreateBook, ... }}>
+      {children}
+    </BooksContext.Provider>
+  );
+}
+```
+
+**Benefits:**
+- Eliminates props drilling through multiple component levels
+- Centralized state management makes debugging easier
+- Components consume only the data they need via custom hook
+- Clean separation between business logic and presentation
+- Easy to test and maintain
+
+**Custom Hook Pattern:**
+```javascript
+// useBooksContext.js - Clean abstraction over useContext
+function useBooksContext() {
+  return useContext(BooksContext);
+}
+
+// Usage in components
+const { books, handleCreateBook } = useBooksContext();
+```
+
 ### API Architecture
 
 The application uses a clean, modular API layer:
@@ -213,8 +261,12 @@ books/
 │   │   ├── BookEdit.js        # Inline edit component
 │   │   ├── BookList.js        # Book collection container
 │   │   └── BookShow.js        # Individual book card
-│   ├── App.js                 # Root component with state
-│   ├── index.js               # App entry point
+│   ├── context/
+│   │   └── books.js           # BooksContext and BooksProvider
+│   ├── hooks/
+│   │   └── useBooksContext.js # Custom hook for accessing book context
+│   ├── App.js                 # Root component
+│   ├── index.js               # App entry point with BooksProvider
 │   └── index.css              # Global styles + Tailwind
 ├── db.json                    # JSON Server database
 ├── vite.config.js             # Vite configuration
