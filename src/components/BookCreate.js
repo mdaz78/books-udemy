@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import useBooksContext from '../hooks/useBooksContext';
 
-const BookCreate = ({ onCreate }) => {
+const BookCreate = () => {
+  const { handleCreateBook } = useBooksContext();
   const [title, setTitle] = useState('');
 
   const handleTitleChange = (event) => {
@@ -14,7 +16,7 @@ const BookCreate = ({ onCreate }) => {
       return;
     }
 
-    onCreate({ title: title.trim() });
+    handleCreateBook({ title: title.trim() });
     setTitle('');
   };
 

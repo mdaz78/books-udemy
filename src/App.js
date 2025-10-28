@@ -36,12 +36,8 @@ function App() {
 
       {/* Main Content */}
       <main className='container mx-auto px-4 py-8 grow'>
-        <BookCreate onCreate={handleCreateBook} />
-        <BookList
-          books={books}
-          onDelete={handleDeleteBookById}
-          onEdit={handleEditBookById}
-        />
+        <BookCreate />
+        <BookList />
       </main>
 
       {/* Footer */}
