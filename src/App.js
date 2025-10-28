@@ -1,12 +1,7 @@
 import BookCreate from './components/BookCreate';
 import BookList from './components/BookList';
 
-import useBooksContext from './hooks/useBooksContext';
-
 function App() {
-  const { books, handleCreateBook, handleDeleteBookById, handleEditBookById } =
-    useBooksContext();
-
   return (
     <div className='min-h-screen bg-background flex flex-col'>
       {/* Header */}
